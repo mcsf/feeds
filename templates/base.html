@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RSS feeds</title>
+<style>
+body { margin: 1em auto; max-width: 60em; }
+h1 { background: lightskyblue; color: black; text-align: center; }
+aside { display: inline-block; float: right; padding: 0.5em; border: 2px dashed lightskyblue; }
+label { margin-right: 0.5em; font-size: 120%; }
+label, time { font-family: monospace; }
+details p { max-width: 40em; }
+@media (max-width: 60em) {
+	body, h1 { margin-top: 0; }
+	main { padding: 0 0.5em; }
+	aside { display: block; float: none; }
+}
+@media (prefers-color-scheme: dark) {
+  body { background: rgb(30,30,30); color: rgb(218,218,218); }
+  a { color: lightskyblue; }
+  a:visited { color: lightgrey; }
+  input[type="text"] { background: rgb(48,48,48); color: rgb(218,218,218); }
+}
+</style>
+<script>
+	function filter(term) {
+		document.querySelectorAll('details').forEach(el => {
+			const corpus = [
+				el.querySelector('time'),
+				el.querySelector('a'),
+				el.querySelector('p'),
+			].map(frag => frag.innerText).join('\n').toLowerCase()
+			el.hidden = corpus.indexOf(term.toLowerCase().trim()) === -1
+		})
+		document.querySelectorAll('h2').forEach(el => {
+			let next = el.nextElementSibling
+			while (next && next.tagName === 'DETAILS') {
+				if (! next.hidden) {
+					el.hidden = false
+					break
+				}
+				el.hidden = true
+				next = next.nextElementSibling
+			}
+		})
+	}
+</script>
+<h1>Web News</h1>
+<main>
+<aside>
+	<label>Filter</label>
+	<input type="text" oninput="filter(this.value)">
+</aside>
