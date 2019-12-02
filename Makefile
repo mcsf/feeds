@@ -1,13 +1,13 @@
 # TODO
 # - Atom support
 # - Limit length
-# - Ignore certain feeds
+# - [X] Ignore certain feeds
 # - Folder categories support
 
 MAKEFLAGS += -j6
-SOURCES = $(shell find -s sources -type f)
+SOURCES = $(filter-out sources/.%,$(shell find -s sources -type f))
 
-sourcetohtml = $(subst sources/,html/,$(addsuffix .html,$(filter-out sources/_%,$(1))))
+sourcetohtml = $(subst sources/,html/,$(addsuffix .html,$(1)))
 lastpubdate = $$(LANG=C date -jf '%d %b %Y' "$$(grep -m1 '<time>' < $(1) | sed -e 's/^.*\([0-9][0-9] [A-z][A-z][A-z] [0-9][0-9][0-9][0-9]\).*$$/\1/')" +"%s" )
 
 all: init html/index.html
@@ -33,5 +33,5 @@ html/index.html: templates/base.html $(call sourcetohtml,$(SOURCES))
 	done
 
 clean:
-	rm -r rss/*
+	rm -rf rss/* html/*
 	touch sources/*
