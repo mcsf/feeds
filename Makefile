@@ -1,6 +1,6 @@
 # TODO
 # - [X] Atom support
-# - Limit length
+# - [X] Limit length
 # - [X] Ignore certain feeds
 # - Folder categories support
 

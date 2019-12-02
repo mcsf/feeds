@@ -16,6 +16,21 @@ g/^\/\(rss\/channel\/item\|feed\/entry\)$/:call MarkItem()
 " Clear irrelevant fields
 v/^\(=BEGIN\|\/\(rss\/channel\/item\|feed\/entry\)\/\(title\|link\|description\|summary\|pubDate\|published\)\)/d
 
+" Limit long feeds to 10 items
+function! TakeFirstN(total, pattern)
+	let n = a:total - 1
+	while n > 0
+		let n = n - 1
+		call search(a:pattern, "W")
+	endwhile
+	if search(a:pattern, "W")
+		.,$d
+	else
+	endif
+endfunction
+1
+call TakeFirstN(10, "^=BEGIN")
+
 " Add heading
 1i
 <h2>
