@@ -29,6 +29,7 @@ html/index.html: templates/base.html $(call sourcetohtml,$(SOURCES))
 	@for f in $(filter-out templates/%,$^); do echo $(call lastpubdate,$$f) $$f; done | sort -r | cut -d\  -f2 | while read feed; do \
 		cat $$feed >> $@ ;  \
 	done
+	@echo "</main><footer>Last updated: <time>$$(LANG=C date)</time>" >> $@
 
 clean:
 	rm -rf rss/* html/*
