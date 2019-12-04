@@ -1,9 +1,3 @@
-# TODO
-# - [X] Atom support
-# - [X] Limit length
-# - [X] Ignore certain feeds
-# - Folder categories support
-
 MAKEFLAGS += -j6
 SOURCES = $(filter-out sources/.%,$(shell find -s sources -type f))
 
@@ -22,7 +16,11 @@ rss/%: sources/%
 
 html/%.html: rss/%
 	# Building $@…
-	@(ex --clean -n $^ < parse-rss.vim > $@; true) # Suppress Ex errors
+	@if grep -q . $^ ; then \
+		(ex --clean -n $^ < parse-rss.vim > $@; true) ; \
+	else \
+		echo "<!-- <time>01 Jan 1970</time> -->" > $@ ; \
+	fi
 
 html/index.html: templates/base.html $(call sourcetohtml,$(SOURCES))
 	# Sorting dependencies and building $@…
