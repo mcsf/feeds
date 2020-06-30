@@ -1,3 +1,5 @@
+#.ONESHELL:
+
 MAKEFLAGS += -j6
 SOURCES = $(filter-out sources/.%,$(shell find -s sources -type f))
 
