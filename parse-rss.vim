@@ -62,10 +62,13 @@ function! ProcessItem()
 		/^\/rss\/channel\/item\/pubDate=\?/s///
 	catch /Pattern not found/
 		" Atom
-		/^\/feed\/entry\/published=\?/s///
-		s/Z/+0000/
-		s/\(-\|+\)\(\d\d\):\(\d\d\)/\1\2\3
-		.%!while read date; do LANG=C date -jf '\%Y-\%m-\%dT\%H:\%M:\%S\%z' $date +"\%d \%b \%Y"; done
+		try
+			/^\/feed\/entry\/published=\?/s///
+			s/Z/+0000/
+			s/\(-\|+\)\(\d\d\):\(\d\d\)/\1\2\3
+			.%!while read date; do LANG=C date -jf '\%Y-\%m-\%dT\%H:\%M:\%S\%z' $date +"\%d \%b \%Y"; done
+		catch /Pattern not found/
+		endtry
 	endtry
 	d p
 	?^=BEGIN
