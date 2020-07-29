@@ -29,7 +29,7 @@ footer { font-size: small; text-align: center; margin-top: 2em; }
 				el.querySelector('time'),
 				el.querySelector('a'),
 				el.querySelector('p'),
-			].map(frag => frag.innerText).join('\n').toLowerCase()
+			].map(frag => frag ? frag.innerText : '').join('\n').toLowerCase()
 			el.hidden = corpus.indexOf(term.toLowerCase().trim()) === -1
 		})
 		document.querySelectorAll('h2').forEach(el => {
